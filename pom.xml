@@ -1,0 +1,232 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>selenium</groupId>
+	<artifactId>selenium</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<selenium.browserWidth>1280</selenium.browserWidth>
+		<selenium.browserHeight>800</selenium.browserHeight>
+	
+		<selenium.proxyHost>p</selenium.proxyHost>
+		<selenium.proxyPort>port</selenium.proxyPort>
+		<selenium.proxyUser>xx</selenium.proxyUser>
+		<selenium.proxyPassword>xx</selenium.proxyPassword>
+
+		<!-- Liferay database properties, used to access tickets -->
+		<selenium.databaseUrl>db</selenium.databaseUrl>
+		<selenium.databaseUser>xx</selenium.databaseUser>
+		<selenium.databasePassword>xx</selenium.databasePassword>
+
+	</properties>
+
+	<profiles>
+
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<selenium.landingPageUrl>url</selenium.landingPageUrl>
+				<selenium.extendedMemberAreaUrl>url</selenium.extendedMemberAreaUrl>
+				<selenium.databaseUrl>url</selenium.databaseUrl>
+				<selenium.databaseUser>user</selenium.databaseUser>
+				<selenium.databasePassword>user</selenium.databasePassword>
+				
+				<selenium.powerUserUser>xx</selenium.powerUserUser>
+				<selenium.powerUserPassword>xx</selenium.powerUserPassword>
+				<selenium.memberUser>xx</selenium.memberUser>
+				<selenium.memberPassword>xx</selenium.memberPassword>
+				<selenium.memberUser2>xx</selenium.memberUser2>
+				<selenium.memberPassword2>xxx</selenium.memberPassword2>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>staging</id>
+			<properties>
+				<selenium.landingPageUrl>xx</selenium.landingPageUrl>
+				<selenium.extendedMemberAreaUrl>yy</selenium.extendedMemberAreaUrl>
+				<selenium.databaseUrl>vc</selenium.databaseUrl>
+				<selenium.databaseUser>dd</selenium.databaseUser>
+				<selenium.databasePassword>xx</selenium.databasePassword>
+				
+				<selenium.powerUserUser>ccc</selenium.powerUserUser>
+				<selenium.powerUserPassword>xx</selenium.powerUserPassword>
+				<selenium.memberUser>xx</selenium.memberUser>
+				<selenium.memberPassword>xx</selenium.memberPassword>
+				<selenium.memberUser2>xx</selenium.memberUser2>
+				<selenium.memberPassword2>xx</selenium.memberPassword2>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<sel.project>[Local]Vector Portal Selenium</sel.project>
+				<sel.buildKey>1.0</sel.buildKey>
+				<sel.os>Windows</sel.os>
+				<sel.osVersion>10</sel.osVersion>
+				<sel.browser>Chrome</sel.browser>
+				<sel.browserVersion>45</sel.browserVersion>
+				<sel.browserStackUser>xx</sel.browserStackUser>
+				<sel.browserStackKey>xx</sel.browserStackKey>
+				<sel.video>true</sel.video>
+				<sel.debug>true</sel.debug>
+				<sel.resolution>1280x800</sel.resolution>	
+			</properties>
+		</profile>
+
+		<profile>
+			<id>bamboo</id>
+			<properties>
+				<sel.project>
+					[Bamboo]Vector Portal Selenium
+				</sel.project>
+				<sel.buildKey>${bamboo.buildKey}</sel.buildKey>
+				<sel.os>${bamboo.os}</sel.os>
+				<sel.osVersion>${bamboo.osVersion}</sel.osVersion>
+				<sel.browser>${bamboo.browser}</sel.browser>
+				<sel.browserVersion>${bamboo.browserVersion}</sel.browserVersion>
+				<sel.video>${bamboo.video}</sel.video>
+				<sel.debug>${bamboo.debug}</sel.debug>
+				<sel.resolution>${bamboo.resolution}</sel.resolution>
+			</properties>
+		</profile>
+
+	</profiles>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>Vector Nexus</id>
+			<url>xx</url>
+		</pluginRepository>
+		<pluginRepository>
+   			<id>xx</id>
+      		<url>xx</url>
+  		</pluginRepository>
+	</pluginRepositories>
+	
+	<repositories>
+  		<repository>
+    		<id>xx</id>
+   	 		<url>xx</url>
+  		</repository>
+	</repositories>
+	
+	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+		<plugins>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.14.1</version>
+                <configuration> 
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+        		<groupId>com.browserstack</groupId>
+        		<artifactId>automate-maven-plugin</artifactId>
+       			<version>0.7.2-SNAPSHOT</version>
+        		<configuration>
+            		<source>1.8</source>
+            		<target>1.8</target>
+            		<complianceLevel>1.8</complianceLevel>
+        		</configuration>
+        		<executions>
+          			<execution>
+            			<goals>
+              				<goal>test-compile</goal>
+           	 			</goals>
+          			</execution>
+        		</executions>
+      		</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.36</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>3.0.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-jxpath</groupId>
+			<artifactId>commons-jxpath</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+    		<groupId>com.browserstack</groupId>
+    		<artifactId>automate-testassist</artifactId>
+   			<version>0.7.2-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>
